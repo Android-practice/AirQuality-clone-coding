@@ -6,6 +6,64 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/tv_location_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="역삼동"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:letterSpacing="-0.05"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toTopOf="@id/guideline4"
+        />
+
+
+    <TextView
+        android:id="@+id/tv_location_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:letterSpacing="-0.05"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:text="대한민국 서울특별시"
+        app:layout_constraintTop_toBottomOf="@id/tv_location_title"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
+        />
+
+<!--    특정 뷰에 맞춘 중앙정렬 topToTopOf / bottomToBottomOf 두가지 동시에 -->
+    <ImageView
+        android:layout_width="10dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_thunder"
+        app:layout_constraintStart_toEndOf="@id/tv_location_title"
+        app:layout_constraintTop_toTopOf="@id/tv_location_title"
+        app:layout_constraintBottom_toBottomOf="@id/tv_location_title"
+        android:layout_marginStart="9dp"
+        />
+
+<!--    width/height : 0dp means : constraint to guide line-->
+
+    <ImageView
+        android:id="@+id/img_bg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="@id/guideline2"
+        app:layout_constraintEnd_toEndOf="@id/guideline3"
+        android:src="@drawable/bg_good"
+        app:layout_constraintDimensionRatio="h,1:1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.4"
+        />
+
+<!--    h,1:1 means 너비를 제약에 맞춘 후 높이를 너비에 1대1비율에 맞춰서 설정함(여기서는 이미지가 가로에 맞춰 정사각형이됨)-->
+
+
+
+<!--    가이드라인 -->
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"
         android:layout_width="wrap_content"
