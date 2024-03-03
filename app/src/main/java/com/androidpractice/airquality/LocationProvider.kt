@@ -103,13 +103,13 @@ class LocationProvider(val context:Context) {
     }
 
 
-    fun getLocationLatitude(): Double{
-        return location?.latitude ?: 0.0
+    fun getLocationLatitude(): Double?{
+        return location?.latitude
     }
 
 
-    fun getLocationLongitude(): Double{
-        return location?.longitude ?: 0.0
+    fun getLocationLongitude(): Double?{
+        return location?.longitude
     }
 
 }

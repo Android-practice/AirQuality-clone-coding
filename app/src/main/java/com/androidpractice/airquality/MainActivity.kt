@@ -9,6 +9,8 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.provider.Settings
@@ -17,10 +19,13 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import java.io.IOException
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
+    lateinit var locationProvider: LocationProvider
 
     private val PERMISSION_REQUEST_CODE = 100//request를 식별하는 코드 (id값)
 
@@ -38,6 +43,49 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         checkAllPermissions()
+        updateUI()
+    }
+
+
+    private fun updateUI(){
+        locationProvider = LocationProvider(this@MainActivity)
+
+        var latitude : Double? = locationProvider.getLocationLatitude()
+        var longtitude : Double? = locationProvider.getLocationLongitude()
+
+        if(latitude != null && longtitude != null){
+            //1. get current location(address) with latitude/longitude info -> ui update
+            val address = getCurrentAddress(latitude,longtitude)
+            //2. get yellow dust info -> ui update
+
+        }else{
+            Toast.makeText(this, "위도, 경도 정보를 가져올 수 없습니다.", Toast.LENGTH_LONG).show()
+        }
+
+    }
+
+
+    private fun getCurrentAddress(latitude: Double, longitude: Double) : Address?{
+        val geoCoder = Geocoder(this, Locale.getDefault()) // get location based on default setting(KOREA..)
+        val addresses : List<Address>?
+
+        addresses = try{
+            geoCoder.getFromLocation(latitude,longitude, 7)//max number of address
+        }catch(ioException:IOException){
+            Toast.makeText(this, "지오코더 서비스를 사용 불가능 합니다.", Toast.LENGTH_LONG).show()
+            return null
+        }catch(illegalArgumentException: java.lang.IllegalArgumentException){
+            Toast.makeText(this, "잘못된 위도, 경도 값입니다.", Toast.LENGTH_LONG).show()
+            return null
+        }
+
+        if(addresses == null || addresses.size == 0){
+            Toast.makeText(this, "주소가 발견되지 않았습니다.", Toast.LENGTH_LONG).show()
+            return null
+        }
+
+        return addresses[0]
+
     }
 
     private fun checkAllPermissions(){
