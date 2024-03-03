@@ -56,6 +56,14 @@ class MainActivity : AppCompatActivity() {
         if(latitude != null && longtitude != null){
             //1. get current location(address) with latitude/longitude info -> ui update
             val address = getCurrentAddress(latitude,longtitude)
+
+            //ui update
+            address?.let{//run only when != null
+                binding.tvLocationTitle.text = "${it.thoroughfare}"
+                binding.tvLocationSubtitle.text = "${it.countryName} ${it.adminArea}"
+
+            }
+
             //2. get yellow dust info -> ui update
 
         }else{
@@ -137,6 +145,7 @@ class MainActivity : AppCompatActivity() {
 
             if(checkResult){//모든 권한이 허용됨
                 //모든 permission통과 -> 위치값 가져올 수 있음
+                updateUI()
 
 
 
